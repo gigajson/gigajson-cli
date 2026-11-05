@@ -1,0 +1,34 @@
+# Publishes to npm when a GitHub release is published (tag vX.Y.Z = the version in package.json).
+# npm trusted publishing: GitHub's OIDC token proves the run comes from this repo and workflow,
+# so there is no npm token stored anywhere, and npm adds provenance to the version.
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write   # for npm trusted publishing (OIDC)
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1   # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1   # v7.1.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Release tag matches package.json
+        run: |
+          v=$(node -p "require('./package.json').version")
+          test "${GITHUB_REF_NAME}" = "v$v" || { echo "Tag ${GITHUB_REF_NAME} but package.json says $v"; exit 1; }
+      - name: npm 11.5.1 or later (trusted publishing)
+        run: |
+          v=$(npm --version)
+          test "$(printf '%s\n' 11.5.1 "$v" | sort -V | head -1)" = 11.5.1 || { echo "npm $v is too old"; exit 1; }
+      - run: npm test
+      - run: npm publish

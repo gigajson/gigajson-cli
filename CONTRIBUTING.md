@@ -17,6 +17,10 @@ Thanks for helping. A few things to know first.
 
 `main` is protected: nobody pushes to it directly. Every pull request is reviewed and merged by the maintainer.
 
+## Releases
+
+The maintainer bumps `version` in `package.json` in a pull request, then publishes a GitHub release tagged `v<version>`. The release runs `.github/workflows/publish.yml`, which tests and publishes to npm with provenance. Nobody publishes from their own computer.
+
 ## Security
 
 The command serves a file from your computer, so changes to what it serves, to whom (CORS) or for how long get a close review. Please report security problems privately, as described in [SECURITY.md](SECURITY.md), not in a public issue.
