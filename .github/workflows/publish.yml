@@ -1,7 +1,9 @@
-# Publishes to npm when a GitHub release is published (tag vX.Y.Z = the version in package.json).
+# Stages a new npm version when a GitHub release is published (tag vX.Y.Z = the version in package.json).
 # npm trusted publishing: GitHub's OIDC token proves the run comes from this repo and workflow,
 # so there is no npm token stored anywhere, and npm adds provenance to the version.
-name: Publish to npm
+# The trusted publisher may only stage: the version goes live after the maintainer approves it
+# on npmjs.com (or `npm stage approve <id>`) with 2FA.
+name: Stage on npm
 
 on:
   release:
@@ -20,15 +22,13 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1   # v7.1.0
         with:
-          node-version: 24
+          node-version: 24   # npm 12 needs 24.15 or later; 24 is the newest 24.x
           registry-url: https://registry.npmjs.org
       - name: Release tag matches package.json
         run: |
           v=$(node -p "require('./package.json').version")
           test "${GITHUB_REF_NAME}" = "v$v" || { echo "Tag ${GITHUB_REF_NAME} but package.json says $v"; exit 1; }
-      - name: npm 11.5.1 or later (trusted publishing)
-        run: |
-          v=$(npm --version)
-          test "$(printf '%s\n' 11.5.1 "$v" | sort -V | head -1)" = 11.5.1 || { echo "npm $v is too old"; exit 1; }
+      - name: npm 12.2.2 (npm 11 has no `npm stage`)
+        run: npm install -g npm@12.2.2
       - run: npm test
-      - run: npm publish
+      - run: npm stage publish .

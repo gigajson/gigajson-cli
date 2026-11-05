@@ -19,7 +19,7 @@ Thanks for helping. A few things to know first.
 
 ## Releases
 
-The maintainer bumps `version` in `package.json` in a pull request, then publishes a GitHub release tagged `v<version>`. The release runs `.github/workflows/publish.yml`, which tests and publishes to npm with provenance. Nobody publishes from their own computer.
+The maintainer bumps `version` in `package.json` in a pull request, then publishes a GitHub release tagged `v<version>`. The release runs `.github/workflows/publish.yml`, which tests the package and stages it on npm with provenance. The version goes live once the maintainer approves it on npmjs.com with 2FA. Nobody publishes from their own computer.
 
 ## Security
 
