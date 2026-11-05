@@ -1,0 +1,37 @@
+{
+  "name": "gigajson",
+  "version": "0.1.0",
+  "description": "Open a local JSON, JSON Lines, CSV, YAML or XML file in GigaJSON from the command line. The file goes from your disk to your browser and is never uploaded.",
+  "type": "module",
+  "bin": {
+    "gigajson": "bin/gigajson.mjs"
+  },
+  "files": [
+    "bin"
+  ],
+  "scripts": {
+    "test": "node test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "json",
+    "json-viewer",
+    "large-json",
+    "jsonl",
+    "cli",
+    "jq",
+    "jsonpath"
+  ],
+  "homepage": "https://github.com/gigajson/gigajson-cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gigajson/gigajson-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gigajson/gigajson-cli/issues"
+  },
+  "author": "Amir Badi",
+  "license": "MIT"
+}
