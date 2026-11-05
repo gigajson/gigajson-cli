@@ -1,6 +1,6 @@
 {
   "name": "gigajson",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Open a local JSON, JSON Lines, CSV, YAML or XML file in GigaJSON from the command line. The file goes from your disk to your browser and is never uploaded.",
   "type": "module",
   "bin": {
